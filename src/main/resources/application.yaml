@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: MonyoRMSAuth
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: kerimlifatime417@gmail.com       # Buraya öz email adresini yaz
+    password: xmrz upuw ptlb qnxx           # Gmail app password (2FA ilə yaradılan)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/monyormsdb
+    username: postgres
+    password: "0504"
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 9090
+
+jwt:
+  secret: bOOk8cY4gTkN9WmV7rHdJzE2zXsG4dPpZrX8tNnKjPk=
+  expirationMs: 3600000                   # access token vaxtı (məsələn, 5 dəq)
+  refreshExpirationMs: 604800000 # refresh token vaxtı (7 gün)
+logging:
+  level:
+    root: INFO                        # Ümumi log səviyyəsi
+    org.springframework: INFO        # Spring log səviyyəsi
+    com.example: DEBUG               # Sənin öz class-ların log səviyyəsi
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
