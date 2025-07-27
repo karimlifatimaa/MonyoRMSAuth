@@ -8,6 +8,7 @@ import com.example.monyormsauth.model.entity.AppUser;
 import com.example.monyormsauth.model.entity.PasswordResetToken;
 import com.example.monyormsauth.model.entity.RefreshToken;
 import com.example.monyormsauth.model.enumerator.ERole;
+import com.example.monyormsauth.repository.PasswordResetTokenRepository;
 import com.example.monyormsauth.repository.RefreshTokenRepository;
 import com.example.monyormsauth.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -19,6 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -31,9 +33,10 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final RefreshTokenService refreshTokenService;
     private final PasswordResetTokenService passwordResetTokenService;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final EmailService emailService;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, RefreshTokenRepository refreshTokenRepository, RefreshTokenService refreshTokenService, PasswordResetTokenService passwordResetTokenService, EmailService emailService) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, RefreshTokenRepository refreshTokenRepository, RefreshTokenService refreshTokenService, PasswordResetTokenService passwordResetTokenService, PasswordResetTokenRepository passwordResetTokenRepository, EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
@@ -41,9 +44,11 @@ public class AuthService {
         this.refreshTokenRepository = refreshTokenRepository;
         this.refreshTokenService = refreshTokenService;
         this.passwordResetTokenService = passwordResetTokenService;
+        this.passwordResetTokenRepository = passwordResetTokenRepository;
         this.emailService = emailService;
     }
 
+    @Transactional
 
     public void updateUserRole(Long userId, ERole role) {
         log.info("Updating user role");
@@ -51,13 +56,17 @@ public class AuthService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
 
         log.info("User found with id: " + userId);
-        user.setRoles(Set.of(role)); // yalnız bir rol verilir
+        user.setRoles(new HashSet<>(Set.of(role)));
         log.info("set role: ");
 
         userRepository.save(user);
     }
 
+    @Transactional
     public void deleteUser(Long userId) {
+        refreshTokenRepository.deleteByUser_Id(userId);
+        passwordResetTokenRepository.deleteByUser_Id(userId);
+
         AppUser user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
 
@@ -80,7 +89,7 @@ public class AuthService {
         AppUser user = AppUser.builder()
                 .username(registerRequest.getUsername())
                 .email(registerRequest.getEmail())
-                .roles(Set.of(ERole.ADMIN))
+                .roles(Set.of(ERole.USER))
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .build();
 

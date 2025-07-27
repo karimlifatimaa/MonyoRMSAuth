@@ -2,6 +2,8 @@
 package com.example.monyormsauth.exception;
 
 import jakarta.validation.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -9,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +19,14 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleAllExceptions(Exception ex) {
+        logger.error("Unhandled exception: ", ex); // LOG düşür
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Server error baş verdi.");
+    }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException ex) {
@@ -82,16 +93,5 @@ public class GlobalExceptionHandler {
         Map<String, String> error = new HashMap<>();
         error.put("error", "Username or password is incorrect");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleGlobalException(Exception ex) {
-        Map<String, Object> errorDetails = new HashMap<>();
-        errorDetails.put("timestamp", LocalDateTime.now());
-        errorDetails.put("message", "Internal Server Error");
-        errorDetails.put("details", ex.getMessage());
-        errorDetails.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-
-        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

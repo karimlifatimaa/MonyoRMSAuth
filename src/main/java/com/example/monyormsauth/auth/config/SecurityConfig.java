@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
+
                                 "/api/auth/**",          // login, register, etc.
                                 "/swagger-ui/**",        // Swagger UI
                                 "/v3/api-docs/**"        // Swagger JSON docs

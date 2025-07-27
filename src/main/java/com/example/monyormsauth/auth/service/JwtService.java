@@ -1,5 +1,7 @@
 package com.example.monyormsauth.service;
 
+import com.example.monyormsauth.model.entity.AppUser;
+import com.example.monyormsauth.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -10,14 +12,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
 
+    private final UserRepository userRepository;
     // application.yml faylından secret və expiration vaxtlarını oxuyur
     @Value("${jwt.secret}")
     private String secret;
@@ -27,6 +29,11 @@ public class JwtService {
 
     @Value("${jwt.refreshExpirationMs}")
     private long refreshExpirationMs;
+
+    public JwtService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
 
     // Tokenin içindən istifadəçi adını çıxarır (subject hissəsi)
     public String extractUsername(String token) {
@@ -77,7 +84,26 @@ public class JwtService {
 
     // Access token yaradır (sadə versiya, təkcə username ilə)
     public String generateToken(String username) {
-        return createToken(new HashMap<>(), username, jwtExpirationMs);
+        AppUser user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("roles", user.getRoles().stream()
+                .map(role -> "ROLE_" + role.name())
+                .collect(Collectors.toList()));
+
+        return createToken(claims, username, jwtExpirationMs);
+    }
+
+    public List<String> extractRoles(String token) {
+        Claims claims = extractAllClaims(token);
+        Object rolesObject = claims.get("roles");
+        if (rolesObject instanceof List<?>) {
+            return ((List<?>) rolesObject).stream()
+                    .map(Object::toString)
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
     }
 
     // Refresh token yaradır (sadə versiya)

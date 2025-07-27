@@ -22,7 +22,7 @@ public class RefreshToken {
     @Column(nullable = false, unique = true)
     private String token;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private AppUser user;
 
