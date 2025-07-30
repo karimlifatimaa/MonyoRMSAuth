@@ -1,15 +1,13 @@
-package com.example.monyormsauth.service;
+package com.example.monyormsauth.auth.service;
 
-import com.example.monyormsauth.model.entity.AppUser;
-import com.example.monyormsauth.repository.UserRepository;
+import com.example.monyormsauth.auth.model.entity.AppUser;
+import com.example.monyormsauth.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 

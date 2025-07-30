@@ -1,10 +1,10 @@
-package com.example.monyormsauth.service;
+package com.example.monyormsauth.auth.service;
 
-import com.example.monyormsauth.exception.UserNotFoundException;
-import com.example.monyormsauth.model.entity.AppUser;
-import com.example.monyormsauth.model.entity.RefreshToken;
-import com.example.monyormsauth.repository.RefreshTokenRepository;
-import com.example.monyormsauth.repository.UserRepository;
+import com.example.monyormsauth.auth.exception.UserNotFoundException;
+import com.example.monyormsauth.auth.model.entity.AppUser;
+import com.example.monyormsauth.auth.model.entity.RefreshToken;
+import com.example.monyormsauth.auth.repository.RefreshTokenRepository;
+import com.example.monyormsauth.auth.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;

@@ -1,7 +1,7 @@
-package com.example.monyormsauth.service;
+package com.example.monyormsauth.auth.service;
 
-import com.example.monyormsauth.model.entity.AppUser;
-import com.example.monyormsauth.repository.UserRepository;
+import com.example.monyormsauth.auth.model.entity.AppUser;
+import com.example.monyormsauth.auth.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

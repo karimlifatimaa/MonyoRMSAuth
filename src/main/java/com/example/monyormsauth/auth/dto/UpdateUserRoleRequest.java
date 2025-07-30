@@ -1,6 +1,6 @@
-package com.example.monyormsauth.dto;
+package com.example.monyormsauth.auth.dto;
 
-import com.example.monyormsauth.model.enumerator.ERole;
+import com.example.monyormsauth.auth.model.enumerator.ERole;
 import lombok.Data;
 
 @Data

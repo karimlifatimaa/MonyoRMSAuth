@@ -1,4 +1,4 @@
-package com.example.monyormsauth.model.entity;
+package com.example.monyormsauth.auth.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

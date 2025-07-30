@@ -1,6 +1,6 @@
-package com.example.monyormsauth.model.entity;
+package com.example.monyormsauth.auth.model.entity;
 
-import com.example.monyormsauth.model.enumerator.ERole;
+import com.example.monyormsauth.auth.model.enumerator.ERole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

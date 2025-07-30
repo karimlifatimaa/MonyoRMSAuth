@@ -1,4 +1,4 @@
-package com.example.monyormsauth.model.enumerator;
+package com.example.monyormsauth.auth.model.enumerator;
 
 public enum ERole {
     ADMIN,

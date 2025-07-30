@@ -1,19 +1,18 @@
-package com.example.monyormsauth.service;
+package com.example.monyormsauth.auth.service;
 
-import com.example.monyormsauth.dto.*;
-import com.example.monyormsauth.exception.DuplicateException;
-import com.example.monyormsauth.exception.InvalidCredentialsException;
-import com.example.monyormsauth.exception.UserNotFoundException;
-import com.example.monyormsauth.model.entity.AppUser;
-import com.example.monyormsauth.model.entity.PasswordResetToken;
-import com.example.monyormsauth.model.entity.RefreshToken;
-import com.example.monyormsauth.model.enumerator.ERole;
-import com.example.monyormsauth.repository.PasswordResetTokenRepository;
-import com.example.monyormsauth.repository.RefreshTokenRepository;
-import com.example.monyormsauth.repository.UserRepository;
+import com.example.monyormsauth.auth.dto.*;
+import com.example.monyormsauth.auth.exception.DuplicateException;
+import com.example.monyormsauth.auth.exception.InvalidCredentialsException;
+import com.example.monyormsauth.auth.exception.UserNotFoundException;
+import com.example.monyormsauth.auth.model.entity.AppUser;
+import com.example.monyormsauth.auth.model.entity.PasswordResetToken;
+import com.example.monyormsauth.auth.model.entity.RefreshToken;
+import com.example.monyormsauth.auth.model.enumerator.ERole;
+import com.example.monyormsauth.auth.repository.PasswordResetTokenRepository;
+import com.example.monyormsauth.auth.repository.RefreshTokenRepository;
+import com.example.monyormsauth.auth.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -209,4 +208,19 @@ public class AuthService {
         log.info("Password reset successful for user {}", user.getUsername());
 
     }
+
+    public boolean doesUserExist(Long id) {
+        return userRepository.existsById(id);
+    }
+
+    public String getUserRole(Long userId) {
+        return userRepository.findById(userId)
+                .map(user -> user.getRoles().stream()
+                        .findFirst()
+                        .map(Enum::name)
+                        .orElseThrow(() -> new UserNotFoundException("User has no role assigned"))) // rol yoxdursa exception
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
+    }
+
+
 }

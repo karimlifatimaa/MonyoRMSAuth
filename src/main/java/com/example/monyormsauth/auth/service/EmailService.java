@@ -1,4 +1,4 @@
-package com.example.monyormsauth.service;
+package com.example.monyormsauth.auth.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

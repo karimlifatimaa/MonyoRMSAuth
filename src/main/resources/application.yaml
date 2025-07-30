@@ -49,8 +49,7 @@ jwt:
   refreshExpirationMs: 604800000 # refresh token vaxtı (7 gün)
 logging:
   level:
-    root: INFO                        # Ümumi log səviyyəsi
-    org.springframework: INFO        # Spring log səviyyəsi
-    com.example: DEBUG               # Sənin öz class-ların log səviyyəsi
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
+    com.example.monyormsauth: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE

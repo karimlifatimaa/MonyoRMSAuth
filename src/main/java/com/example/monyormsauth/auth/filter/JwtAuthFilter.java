@@ -1,7 +1,7 @@
-package com.example.monyormsauth.filter;
+package com.example.monyormsauth.auth.filter;
 
-import com.example.monyormsauth.service.JwtService;
-import com.example.monyormsauth.service.UserDetailsServiceImpl;
+import com.example.monyormsauth.auth.service.JwtService;
+import com.example.monyormsauth.auth.service.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

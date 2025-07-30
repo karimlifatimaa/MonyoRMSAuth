@@ -1,4 +1,4 @@
-package com.example.monyormsauth.dto;
+package com.example.monyormsauth.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

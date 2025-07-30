@@ -1,8 +1,8 @@
-package com.example.monyormsauth.config;
+package com.example.monyormsauth.auth.config;
 
-import com.example.monyormsauth.filter.JwtAuthFilter;
-import com.example.monyormsauth.repository.UserRepository;
-import com.example.monyormsauth.service.UserDetailsServiceImpl;
+import com.example.monyormsauth.auth.filter.JwtAuthFilter;
+import com.example.monyormsauth.auth.repository.UserRepository;
+import com.example.monyormsauth.auth.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

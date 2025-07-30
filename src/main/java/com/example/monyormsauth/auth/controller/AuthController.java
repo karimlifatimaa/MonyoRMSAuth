@@ -1,8 +1,7 @@
-package com.example.monyormsauth.controller;
+package com.example.monyormsauth.auth.controller;
 
-import com.example.monyormsauth.dto.*;
-import com.example.monyormsauth.model.entity.AppUser;
-import com.example.monyormsauth.service.AuthService;
+import com.example.monyormsauth.auth.dto.*;
+import com.example.monyormsauth.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -70,5 +69,16 @@ public class AuthController {
     ) {
         authService.updateUserRole(id, request.getRole());
         return ResponseEntity.ok("User role updated successfully.");
+    }
+    @GetMapping("/users/{id}/exists")
+    public ResponseEntity<Boolean> doesUserExist(@PathVariable Long id) {
+        boolean exists = authService.doesUserExist(id);
+        return ResponseEntity.ok(exists);
+    }
+
+    @GetMapping("/users/{id}/role")
+    public ResponseEntity<String> getUserRole(@PathVariable Long id) {
+        String role = authService.getUserRole(id);
+        return ResponseEntity.ok(role);
     }
 }

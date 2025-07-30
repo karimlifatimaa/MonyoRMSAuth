@@ -1,6 +1,6 @@
-package com.example.monyormsauth.repository;
+package com.example.monyormsauth.auth.repository;
 
-import com.example.monyormsauth.model.entity.RefreshToken;
+import com.example.monyormsauth.auth.model.entity.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
